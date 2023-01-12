@@ -3,12 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const DATA = [
+  { id: "todo-0", name: "Eat", completed: true },
+  { id: "todo-1", name: "Sleep", completed: false },
+  { id: "todo-2", name: "Repeat", completed: false }
+];
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App tasks={DATA}/>);
+//ReactDOM.render(<App tasks={DATA} />, document.getElementById("root"));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
