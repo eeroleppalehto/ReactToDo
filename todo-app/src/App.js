@@ -17,6 +17,24 @@ function App({ initalTasks }) {
     setTasks([...tasks, newTask])
   }
 
+  function toggleTaskCompleted(id) {
+    const updatedTasks = tasks.map((task) => {
+      // if this task has the same ID as the edited task
+      if (id === task.id) {
+        // use object spread to make a new object
+        // whose `completed` prop has been inverted
+        return {...task, completed: !task.completed}
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  }
+ 
+  function deleteTask(id){
+    const remainingTasks = tasks.filter( (task) => task.id !== id );
+    setTasks(remainingTasks);
+  }
+  
   
   // Iterate through tasks list to generate JSX
   const taskList = tasks.map((item) => (
@@ -25,6 +43,8 @@ function App({ initalTasks }) {
     name={item.name}
     completed={item.completed}
     key={item.id}
+    toggleTaskCompleted={toggleTaskCompleted}
+    deleteTask = {deleteTask}
     />
     ));
 
