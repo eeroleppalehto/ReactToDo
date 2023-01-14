@@ -35,7 +35,19 @@ function App({ initalTasks }) {
     setTasks(remainingTasks);
   }
   
+  function editTask(id, newName){
+    const editedTaskList = tasks.map((task) => {
+      // if this task has the same ID as the edited task
+        if (id === task.id) {
+          return {...task, name: newName}
+        }
+        return task;
+      });
+      setTasks(editedTaskList);
+  }
+
   
+
   // Iterate through tasks list to generate JSX
   const taskList = tasks.map((item) => (
     <Todo
@@ -45,6 +57,7 @@ function App({ initalTasks }) {
     key={item.id}
     toggleTaskCompleted={toggleTaskCompleted}
     deleteTask = {deleteTask}
+    editTask = {editTask}
     />
     ));
 
