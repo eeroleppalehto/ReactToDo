@@ -27,7 +27,7 @@ export default function Todo({ name, completed, id, toggleTaskCompleted, deleteT
         <input id={id} className="todo-text" type="text" value={newName} onChange={handleChange}/>
       </div>
       <div className="btn-group">
-        <button type="button" className="btn todo-cancel"onClick={() => setEditing(false)}>
+        <button type="button" className="btn todo-cancel" onClick={() => setEditing(false)}>
           Cancel
           <span className="visually-hidden">renaming {name}</span>
         </button>
