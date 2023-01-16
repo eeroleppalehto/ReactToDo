@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
+import Sort from "./components/Sort";
 import Todo from "./components/Todo";
 import { nanoid } from "nanoid";
 
@@ -53,6 +54,13 @@ function App({ initalTasks }) {
 
   const FILTER_NAMES = Object.keys(FILTER_MAP);
 
+  const [sort, setSort] = useState("AlpapheticalAsc");
+
+  const SORT_MAP = {
+    AlpapheticalAsc: "sds",
+  };
+
+  const SORT_NAMES = Object.keys(SORT_MAP);
 
   // Iterate through tasks list to generate JSX
   const taskList = tasks.filter(FILTER_MAP[filter]).map((item) => (
@@ -86,6 +94,9 @@ function App({ initalTasks }) {
       <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">{filterList}</div>
       <h2 id="list-heading">{headingText}</h2>
+      <div>
+        <Sort setSort={setSort}/>
+      </div>
       <ul
         role="list"
         className="todo-list stack-large stack-exception"
