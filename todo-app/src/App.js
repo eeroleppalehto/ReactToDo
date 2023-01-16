@@ -54,16 +54,46 @@ function App({ initalTasks }) {
 
   const FILTER_NAMES = Object.keys(FILTER_MAP);
 
-  const [sort, setSort] = useState("AlpapheticalAsc");
+  const [sort, setSort] = useState("az");
+
+  const az_sort = (itemA, itemB) => {
+    const nameA = itemA.name.toUpperCase(); // ignore upper and lowercase
+    const nameB = itemB.name.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  };
+
+  const za_sort = (itemAr, itemBr) => {
+    const nameA = itemAr.name.toUpperCase(); // ignore upper and lowercase
+    const nameB = itemBr.name.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return 1;
+    }
+    if (nameA > nameB) {
+      return -1;
+    }
+
+    // names must be equal
+    return 0;
+  };
+
 
   const SORT_MAP = {
-    AlpapheticalAsc: "sds",
+    "az": az_sort, // Can this be empty or () => ()
+    "za": za_sort,
   };
 
   const SORT_NAMES = Object.keys(SORT_MAP);
 
   // Iterate through tasks list to generate JSX
-  const taskList = tasks.filter(FILTER_MAP[filter]).map((item) => (
+  const taskList = tasks.filter(FILTER_MAP[filter]).sort(SORT_MAP[sort]).map((item) => (
     <Todo
       id={item.id}
       name={item.name}
@@ -91,11 +121,11 @@ function App({ initalTasks }) {
   return (
     <div className="todoapp stack-large">
       <h1>TodoMatic</h1>
-      <Form addTask={addTask} />
+        <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">{filterList}</div>
       <h2 id="list-heading">{headingText}</h2>
       <div>
-        <Sort setSort={setSort}/>
+        <Sort sort={sort} setSort={setSort}/>
       </div>
       <ul
         role="list"

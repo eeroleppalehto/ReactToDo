@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 
-export default function Sort({setSort}) {
+export default function Sort({sort, setSort}) {
   function handleChange(e) {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setSort(e.target.value);
   }
 
   const options = [
-    { label: "A-Z", value: "a-z" },
-    { label: "Z-A", value: "z-a" },
+    { label: "A-Z", value: "az" },
+    { label: "Z-A", value: "za" },
   ];
 
   return (
     <>
-      <label for="cars">Sort:</label>
-      <select value={""} onChange={handleChange}>
+      <label>Sort:</label>
+      <select value={sort} onChange={handleChange}>
       {options.map((option) => (
         <option value={option.value}>{option.label}</option>
       ))}
