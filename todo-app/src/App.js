@@ -90,7 +90,7 @@ function App({ initalTasks }) {
     "za": za_sort,
   };
 
-  const SORT_NAMES = Object.keys(SORT_MAP);
+  const SORT_NAMES = Object.keys(SORT_MAP); // TODO: Check if this line is needed
 
   // Iterate through tasks list to generate JSX
   const taskList = tasks.filter(FILTER_MAP[filter]).sort(SORT_MAP[sort]).map((item) => (
