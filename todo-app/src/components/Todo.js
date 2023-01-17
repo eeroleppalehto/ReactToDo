@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function Todo({ name, completed, id, toggleTaskCompleted, deleteTask, editTask }) {
+export default function Todo({ name, completed, id, created,toggleTaskCompleted, deleteTask, editTask }) {
   
   const [isEditing, setEditing] = useState(false);
 
@@ -49,6 +49,12 @@ export default function Todo({ name, completed, id, toggleTaskCompleted, deleteT
           />
           <label className="todo-label" htmlFor={id}>
             {name}
+          </label>
+          <label>
+            {created.toTimeString()}
+          </label>
+          <label className="todo-label">
+            {created.toDateString()}
           </label>
         </div>
         <div className="btn-group">

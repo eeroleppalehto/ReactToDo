@@ -9,6 +9,8 @@ export default function Sort({sort, setSort}) {
   const options = [
     { label: "A-Z", value: "az" },
     { label: "Z-A", value: "za" },
+    { label: "Oldest", value: "oldest"},
+    { label: "Newest", value: "newest"}
   ];
 
   return (

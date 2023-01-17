@@ -11,7 +11,7 @@ function App({ initalTasks }) {
 
   // Callback function to update task list from Form.js
   function addTask(name) {
-    const newTask = { id: `todo-${nanoid()}`, name, completed: false };
+    const newTask = { id: `todo-${nanoid()}`, name, completed: false , created: new Date()};
     setTasks([...tasks, newTask]);
   }
 
@@ -84,10 +84,20 @@ function App({ initalTasks }) {
     return 0;
   };
 
+  const oldest_sort = (a, b) => {
+    return new Date(a.created).valueOf() - new Date(b.created).valueOf();
+  };
+
+  const newest_sort = (a, b) => {
+    return new Date(b.created).valueOf() - new Date(a.created).valueOf();
+  };
+
 
   const SORT_MAP = {
     "az": az_sort, // Can this be empty or () => ()
     "za": za_sort,
+    "oldest": oldest_sort,
+    "newest": newest_sort,
   };
 
   const SORT_NAMES = Object.keys(SORT_MAP); // TODO: Check if this line is needed
@@ -98,6 +108,7 @@ function App({ initalTasks }) {
       id={item.id}
       name={item.name}
       completed={item.completed}
+      created={item.created}
       key={item.id}
       toggleTaskCompleted={toggleTaskCompleted}
       deleteTask={deleteTask}
