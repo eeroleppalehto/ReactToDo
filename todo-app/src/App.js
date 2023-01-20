@@ -3,15 +3,31 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Sort from "./components/Sort";
 import Todo from "./components/Todo";
+import ToDosService from './services/ToDos';
 import { nanoid } from "nanoid";
 
 // Parent React Component to be rendered
 function App({ initalTasks }) {
+
+  /* useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/ToDos')
+      .then(response => {
+        const todos = response.data
+        console.log(todos)
+      }
+    )
+  }, [])
+  console.log('render', todos.length, 'dates') */
+
+
+
   const [tasks, setTasks] = useState(initalTasks);
 
   // Callback function to update task list from Form.js
   function addTask(name) {
-    const newTask = { id: `todo-${nanoid()}`, name, completed: false , created: new Date()};
+    const newTask = { id: `todo-${nanoid()}`, name, completed: false , created: new Date()}; // TODO: Modify creted attribute to use method `.toJSON()`
     setTasks([...tasks, newTask]);
   }
 

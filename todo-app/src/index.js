@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 
+
 const DATA = [
   { id: "todo-0", name: "Eat", completed: true, created: new Date()},
   { id: "todo-1", name: "Sleep", completed: false, created: new Date() },

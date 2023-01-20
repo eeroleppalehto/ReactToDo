@@ -6,6 +6,9 @@ export default function Todo({ name, completed, id, created,toggleTaskCompleted,
 
   const [newName, setNewName] = useState('');
 
+  /* const dateString = created.toJSON().slice(11,19) + ' ' + created.toJSON().slice(0, 10);
+  console.log(dateString); */
+
   function handleChange(e) {
     setNewName(e.target.value)
   }
