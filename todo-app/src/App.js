@@ -1,34 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Sort from "./components/Sort";
 import Todo from "./components/Todo";
-import ToDosService from './services/ToDos';
+import ToDoService from './services/ToDoService';
 import { nanoid } from "nanoid";
 
 // Parent React Component to be rendered
 function App({ initalTasks }) {
+  
+  const [tasks, setTasks] = useState([]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/ToDos')
-      .then(response => {
-        const todos = response.data
-        console.log(todos)
-      }
-    )
+    ToDoService.getAll()
+      .then(initialNotes => setTasks(initialNotes))  
   }, [])
-  console.log('render', todos.length, 'dates') */
-
-
-
-  const [tasks, setTasks] = useState(initalTasks);
+  
 
   // Callback function to update task list from Form.js
   function addTask(name) {
-    const newTask = { id: `todo-${nanoid()}`, name, completed: false , created: new Date()}; // TODO: Modify creted attribute to use method `.toJSON()`
-    setTasks([...tasks, newTask]);
+    const newTask = { name, completed: false , created: new Date().toJSON()}; // TODO: Also remove the id attribute. Removed: id: `todo-${nanoid()}`, 
+    ToDoService
+      .create(newTask)
+      .then(responceTask => setTasks([...tasks, responceTask]))
+
+    // setTasks([...tasks, newTask]); // TODO: Add new task to db.json via axios
   }
 
   function toggleTaskCompleted(id) {
@@ -50,14 +47,21 @@ function App({ initalTasks }) {
   }
 
   function editTask(id, newName) {
-    const editedTaskList = tasks.map((task) => {
+    /* const editedTaskList = tasks.map((task) => {
       // if this task has the same ID as the edited task
       if (id === task.id) {
         return { ...task, name: newName };
       }
       return task;
-    });
-    setTasks(editedTaskList);
+    }); */
+    // TODO: generate object for edited task
+    const editTask = tasks.find(task => task.id === id)
+    const editedTask = { ...editTask, name: newName}
+    ToDoService
+      .update(id, editedTask)
+      .then(responseTask => 
+        setTasks(tasks.map(task => task.id !== id ? task : responseTask)))
+    // setTasks(editedTaskList);
   }
 
   const [filter, setFilter] = useState("All");

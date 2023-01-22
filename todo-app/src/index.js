@@ -5,9 +5,9 @@ import App from './App';
 
 
 const DATA = [
-  { id: "todo-0", name: "Eat", completed: true, created: new Date()},
-  { id: "todo-1", name: "Sleep", completed: false, created: new Date() },
-  { id: "todo-2", name: "Repeat", completed: false, created: new Date() }
+  { id: "todo-0", name: "Eat", completed: true, created: new Date().toJSON() },
+  { id: "todo-1", name: "Sleep", completed: false, created: new Date().toJSON() },
+  { id: "todo-2", name: "Repeat", completed: false, created: new Date().toJSON() }
 ];
 
 
