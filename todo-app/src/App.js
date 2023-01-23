@@ -12,7 +12,6 @@ function App({ initalTasks }) {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    console.log('effect')
     ToDoService.getAll()
       .then(initialNotes => setTasks(initialNotes))  
   }, [])
@@ -29,7 +28,7 @@ function App({ initalTasks }) {
   }
 
   function toggleTaskCompleted(id) {
-    const updatedTasks = tasks.map((task) => {
+    /* const updatedTasks = tasks.map((task) => {
       // if this task has the same ID as the edited task
       if (id === task.id) {
         // use object spread to make a new object
@@ -38,30 +37,30 @@ function App({ initalTasks }) {
       }
       return task;
     });
-    setTasks(updatedTasks);
+    setTasks(updatedTasks); */
+
+    const toggleTask = tasks.find(task => task.id === id);
+    const toggledTask = { ...toggleTask, completed: !toggleTask.completed }
+    ToDoService
+      .update(id, toggledTask)
+      .then(responseTask =>
+        setTasks(tasks.map(task => task.id !== id ? task : responseTask)))
   }
 
   function deleteTask(id) {
     const remainingTasks = tasks.filter((task) => task.id !== id);
-    setTasks(remainingTasks);
+    ToDoService
+      .remove(id)
+      .then(() => setTasks(remainingTasks));
   }
 
   function editTask(id, newName) {
-    /* const editedTaskList = tasks.map((task) => {
-      // if this task has the same ID as the edited task
-      if (id === task.id) {
-        return { ...task, name: newName };
-      }
-      return task;
-    }); */
-    // TODO: generate object for edited task
     const editTask = tasks.find(task => task.id === id)
     const editedTask = { ...editTask, name: newName}
     ToDoService
       .update(id, editedTask)
       .then(responseTask => 
         setTasks(tasks.map(task => task.id !== id ? task : responseTask)))
-    // setTasks(editedTaskList);
   }
 
   const [filter, setFilter] = useState("All");
