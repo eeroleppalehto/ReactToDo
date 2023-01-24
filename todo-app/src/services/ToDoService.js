@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/ToDos'
+const baseUrl = 'http://localhost:3001/api/todos'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
@@ -21,9 +21,4 @@ const remove = (id) => {
   return request.then(response => response.data)
 }
 
-export default { 
-  getAll: getAll, 
-  create: create, 
-  update: update,
-  remove: remove
-}
+export default { getAll, create, update, remove }
