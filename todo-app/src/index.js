@@ -4,15 +4,15 @@ import './index.css';
 import App from './App';
 
 
-const DATA = [
+/* const DATA = [
   { id: "todo-0", name: "Eat", completed: true, created: new Date().toJSON() },
   { id: "todo-1", name: "Sleep", completed: false, created: new Date().toJSON() },
   { id: "todo-2", name: "Repeat", completed: false, created: new Date().toJSON() }
-];
+]; */
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(<App initalTasks={DATA}/>);
+root.render(<App />);
 //ReactDOM.render(<App tasks={DATA} />, document.getElementById("root"));
 
 // If you want to start measuring performance in your app, pass a function

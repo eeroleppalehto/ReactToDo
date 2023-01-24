@@ -7,7 +7,7 @@ import ToDoService from './services/ToDoService';
 import { nanoid } from "nanoid";
 
 // Parent React Component to be rendered
-function App({ initalTasks }) {
+function App() {
   
   const [tasks, setTasks] = useState([]);
 
@@ -22,23 +22,12 @@ function App({ initalTasks }) {
     const newTask = { name, completed: false , created: new Date().toJSON()}; // TODO: Also remove the id attribute. Removed: id: `todo-${nanoid()}`, 
     ToDoService
       .create(newTask)
-      .then(responceTask => setTasks([...tasks, responceTask]))
+      .then(responseTask => setTasks([...tasks, responseTask]))
 
     // setTasks([...tasks, newTask]); // TODO: Add new task to db.json via axios
   }
 
   function toggleTaskCompleted(id) {
-    /* const updatedTasks = tasks.map((task) => {
-      // if this task has the same ID as the edited task
-      if (id === task.id) {
-        // use object spread to make a new object
-        // whose `completed` prop has been inverted
-        return { ...task, completed: !task.completed };
-      }
-      return task;
-    });
-    setTasks(updatedTasks); */
-
     const toggleTask = tasks.find(task => task.id === id);
     const toggledTask = { ...toggleTask, completed: !toggleTask.completed }
     ToDoService
