@@ -4,7 +4,6 @@ import FilterButton from "./components/FilterButton";
 import Sort from "./components/Sort";
 import Todo from "./components/Todo";
 import ToDoService from './services/ToDoService';
-import { nanoid } from "nanoid";
 
 // Parent React Component to be rendered
 function App() {
