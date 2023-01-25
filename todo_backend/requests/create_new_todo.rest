@@ -1,0 +1,7 @@
+POST http://localhost:3002/api/todos
+Content-Type: application/json
+
+{
+  "name": "VS Code res client is pretty handy",
+  "completed": true
+}
