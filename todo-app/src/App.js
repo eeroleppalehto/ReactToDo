@@ -3,6 +3,8 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Sort from "./components/Sort";
 import Todo from "./components/Todo";
+
+import SortFunctions from "./utils/SortFunctions";
 import ToDoService from './services/ToDoService';
 
 // Parent React Component to be rendered
@@ -18,12 +20,10 @@ function App() {
 
   // Callback function to update task list from Form.js
   function addTask(name) {
-    const newTask = { name, completed: false , created: new Date().toJSON()}; // TODO: Also remove the id attribute. Removed: id: `todo-${nanoid()}`, 
+    const newTask = { name, completed: false , created: new Date().toJSON()};
     ToDoService
       .create(newTask)
       .then(responseTask => setTasks([...tasks, responseTask]))
-
-    // setTasks([...tasks, newTask]); // TODO: Add new task to db.json via axios
   }
 
   function toggleTaskCompleted(id) {
@@ -63,54 +63,10 @@ function App() {
 
   const [sort, setSort] = useState("az");
 
-  const az_sort = (itemA, itemB) => {
-    const nameA = itemA.name.toUpperCase(); // ignore upper and lowercase
-    const nameB = itemB.name.toUpperCase(); // ignore upper and lowercase
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-
-    // names must be equal
-    return 0;
-  };
-
-  const za_sort = (itemAr, itemBr) => {
-    const nameA = itemAr.name.toUpperCase(); // ignore upper and lowercase
-    const nameB = itemBr.name.toUpperCase(); // ignore upper and lowercase
-    if (nameA < nameB) {
-      return 1;
-    }
-    if (nameA > nameB) {
-      return -1;
-    }
-
-    // names must be equal
-    return 0;
-  };
-
-  const oldest_sort = (a, b) => {
-    return new Date(a.created).valueOf() - new Date(b.created).valueOf();
-  };
-
-  const newest_sort = (a, b) => {
-    return new Date(b.created).valueOf() - new Date(a.created).valueOf();
-  };
-
-
-  const SORT_MAP = {
-    "az": az_sort, // Can this be empty or () => ()
-    "za": za_sort,
-    "oldest": oldest_sort,
-    "newest": newest_sort,
-  };
-
-  const SORT_NAMES = Object.keys(SORT_MAP); // TODO: Check if this line is needed
+  /* const SORT_NAMES = Object.keys(SORT_MAP); // TODO: Check if this line is needed */
 
   // Iterate through tasks list to generate JSX
-  const taskList = tasks.filter(FILTER_MAP[filter]).sort(SORT_MAP[sort]).map((item) => (
+  const taskList = tasks.filter(FILTER_MAP[filter]).sort(SortFunctions[sort]).map((item) => (
     <Todo
       id={item.id}
       name={item.name}
