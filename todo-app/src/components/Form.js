@@ -16,8 +16,6 @@ function Form({ addTask }) {
     setName("");
   }
 
-  
-
   return (
     <form onSubmit={handleSubmit}>
       <h2 className="label-wrapper">

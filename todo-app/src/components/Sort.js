@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
 export default function Sort({sort, setSort}) {
   function handleChange(e) {
-    // console.log(e.target.value);
     setSort(e.target.value);
   }
 
