@@ -1,5 +1,6 @@
 import React from "react";
 
+// Button component that filters the saved tasks
 function FilterButton({name, isPressed, setFilter}) {
   return (
     <button 

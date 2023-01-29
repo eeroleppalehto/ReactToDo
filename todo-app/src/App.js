@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Sort from "./components/Sort";
@@ -12,6 +13,7 @@ function App() {
   
   const [tasks, setTasks] = useState([]);
 
+  // Fetches all data to be rendered on first render of the page
   useEffect(() => {
     ToDoService.getAll()
       .then(initialNotes => setTasks(initialNotes))  

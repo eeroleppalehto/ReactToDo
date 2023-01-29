@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
+// Generates a Form component for adding a new Task
 function Form({ addTask }) {
 
+  // State to manage the forms input field
   const [name, setName] = useState('');
   
   function handleChange(e) {

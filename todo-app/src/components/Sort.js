@@ -1,5 +1,6 @@
 import React from "react";
 
+// Generates a dropdown list that sorts the saved task by selected option
 export default function Sort({sort, setSort}) {
   function handleChange(e) {
     setSort(e.target.value);

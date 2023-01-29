@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-export default function Todo({ name, completed, id, created,toggleTaskCompleted, deleteTask, editTask }) {
+// 
+export default function Todo({ name, completed, id, created, toggleTaskCompleted, deleteTask, editTask }) {
   
   const [isEditing, setEditing] = useState(false);
 
@@ -8,13 +9,16 @@ export default function Todo({ name, completed, id, created,toggleTaskCompleted,
 
   const dateString = created.slice(11,19) + ' ' + created.slice(0, 10);
 
+  // Sets the newName as what user has typed on the input field
   function handleChange(e) {
     setNewName(e.target.value)
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    editTask(id, newName);
+    if (newName !== "") {
+      editTask(id, newName);
+    }
     setNewName("");
     setEditing(false);
   }
@@ -71,7 +75,7 @@ export default function Todo({ name, completed, id, created,toggleTaskCompleted,
     </div>
   );
   
-  
+  // Conditionally render either editing or view template depending the state of 'isEditing'
   return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
 
 }
