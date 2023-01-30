@@ -100,9 +100,7 @@ function App() {
         <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">{filterList}</div>
       <h2 id="list-heading">{headingText}</h2>
-      <div>
-        <Sort sort={sort} setSort={setSort}/>
-      </div>
+      <Sort sort={sort} setSort={setSort}/>
       <ul
         role="list"
         className="todo-list stack-large stack-exception"

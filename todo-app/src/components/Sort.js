@@ -14,13 +14,13 @@ export default function Sort({sort, setSort}) {
   ];
 
   return (
-    <>
-      <label>Sort:</label>
-      <select value={sort} onChange={handleChange}>
+    <div>
+      <label className="todo-label">Sort: </label>
+      <select value={sort} onChange={handleChange} class="sort">
       {options.map((option) => (
         <option value={option.value}>{option.label}</option>
       ))}
       </select>
-    </>
+    </div>
   );
 }
