@@ -12,7 +12,11 @@ mongoose.connect(url)
   })
 
 const todoSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    minlength: 5,
+    required: true
+  },
   completed: Boolean,
   created: String,
 })
