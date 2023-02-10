@@ -8,10 +8,12 @@ const Todo = require('./models/todo')
 
 
 const errorHandler = (error, request, response, next) => {
-  console.log(error.message)
+  console.error(error.message)
   
   if (error.name === 'CastError'){
     return response.status(400).send({ error: 'malformatted id'})
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
   
   next(error)
@@ -56,14 +58,14 @@ app.get('/api/todos/:id', (req, res, next) => {
     .catch(error => next(error))
 })
 
-app.post('/api/todos', (req, res) =>{
+app.post('/api/todos', (req, res, next) =>{
   const body = req.body
 
-  if (body.name === undefined) {
+  /* if (body.name === undefined) {
     return res.status(400).json({
       error: 'content missing'
     })
-  }
+  } */
 
   const todo = new Todo ({
     name: body.name,
@@ -71,9 +73,11 @@ app.post('/api/todos', (req, res) =>{
     created: new Date().toJSON(),
   })
   
-  todo.save().then(savedTodo => {
-    res.json(savedTodo)
-  })  
+  todo.save()
+    .then(savedTodo => {
+      res.json(savedTodo)
+    })
+    .catch(error => next(error))
 })
 
 app.put('/api/todos/:id', (req, res, next) => {
@@ -85,7 +89,7 @@ app.put('/api/todos/:id', (req, res, next) => {
     created: body.created,
   }
 
-  Todo.findByIdAndUpdate(req.params.id, todo, {new: true})
+  Todo.findByIdAndUpdate(req.params.id, todo, {new: true, runValidators: true, context: 'query'})
     .then(updatedTodo =>{
       res.json(updatedTodo)
     })
