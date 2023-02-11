@@ -1,14 +1,28 @@
 const todosRouter = require('express').Router()
 const Todo = require('../models/todo')
 
-todosRouter.get('/', (req, res) => {
-  Todo.find({}).then(todos =>{
+//FIXME: Remove block comments
+todosRouter.get('/', async (req, res) => {
+  const todos = await Todo.find({})
+  res.json(todos)
+  /* Todo.find({}).then(todos =>{
     res.json(todos)
-  })
+  }) */
 })
 
-todosRouter.get('/:id', (req, res, next) => {
-  Todo.findById(req.params.id)
+todosRouter.get('/:id', async (req, res, next) => {
+  try {
+    const todo = await Todo.findById(req.params.id)
+    if (todo) {
+      res.json(todo)
+    } else {
+      res.status(404).end()
+    }
+  } catch(exception) {
+    next(exception)
+  }
+
+  /* Todo.findById(req.params.id)
     .then(todo => {
       if (todo) {
         res.json(todo)
@@ -16,10 +30,10 @@ todosRouter.get('/:id', (req, res, next) => {
         res.status(404).end()
       }  
     })
-    .catch(error => next(error))
+    .catch(error => next(error)) */
 })
 
-todosRouter.post('/', (req, res, next) =>{
+todosRouter.post('/', async (req, res, next) =>{
   const body = req.body
 
   const todo = new Todo ({
@@ -28,14 +42,15 @@ todosRouter.post('/', (req, res, next) =>{
     created: new Date().toJSON(),
   })
   
-  todo.save()
-    .then(savedTodo => {
-      res.json(savedTodo)
-    })
-    .catch(error => next(error))
+  try {
+    const savedTodo = await todo.save()
+    res.status(201).json(savedTodo)
+  } catch (exception) {
+    next(exception)
+  }
 })
 
-todosRouter.put('/:id', (req, res, next) => {
+todosRouter.put('/:id', async (req, res, next) => {
   const body = req.body
 
   const todo = {
@@ -44,19 +59,33 @@ todosRouter.put('/:id', (req, res, next) => {
     created: body.created,
   }
 
-  Todo.findByIdAndUpdate(req.params.id, todo, {new: true, runValidators: true, context: 'query'})
+  try {
+    const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, todo, {new: true, runValidators: true, context: 'query'})
+    res.status(200).json(updatedTodo)
+  } catch (exception) {
+    next(exception)
+  }
+
+  /* Todo.findByIdAndUpdate(req.params.id, todo, {new: true, runValidators: true, context: 'query'})
     .then(updatedTodo =>{
       res.json(updatedTodo)
     })
-    .catch(error => next(error))
+    .catch(error => next(error)) */
 })
 
-todosRouter.delete('/:id', (req, res, next) => {
-  Todo.findByIdAndRemove(req.params.id)
+todosRouter.delete('/:id', async (req, res, next) => {
+  try {
+    await Todo.findByIdAndRemove(req.params.id)
+    res.status(204).end()
+  } catch (exception) {
+    next(exception)
+  }
+
+  /* Todo.findByIdAndRemove(req.params.id)
     .then( () => {
       res.status(204).end()
     })
-    .catch(error => next(error))
+    .catch(error => next(error)) */
 })
 
 module.exports = todosRouter
