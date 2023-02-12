@@ -1,3 +1,5 @@
+// Sorting functions to sort tasks in user interface
+
 const az_sort = (itemA, itemB) => {
     const nameA = itemA.name.toUpperCase();
     const nameB = itemB.name.toUpperCase();

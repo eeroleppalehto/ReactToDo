@@ -1,3 +1,5 @@
+// Functions to handle logging prints and error in console
+
 const info = (...params) => {
   if (process.env.NODE_ENV !== 'test') {
     console.log(...params)

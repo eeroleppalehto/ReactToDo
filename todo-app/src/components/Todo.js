@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-// 
+// React component for either viewing or editing saved task
 export default function Todo({ name, completed, id, created, toggleTaskCompleted, deleteTask, editTask }) {
   
   const [isEditing, setEditing] = useState(false);
@@ -23,7 +23,7 @@ export default function Todo({ name, completed, id, created, toggleTaskCompleted
     setEditing(false);
   }
   
-
+  //JSX Template for editing a task
   const editingTemplate = (
     <form className="stack-small" onSubmit={handleSubmit}>
       <div className="form-group">
@@ -44,6 +44,7 @@ export default function Todo({ name, completed, id, created, toggleTaskCompleted
       </div>
     </form>
   );
+  // JSX Template for viewing a task
   const viewTemplate = (
     <div className="stack-small">
       <div className="c-cb">

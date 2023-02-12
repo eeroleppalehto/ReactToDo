@@ -1,3 +1,5 @@
+// Routes for handling request involing todos
+
 const todosRouter = require('express').Router()
 const Todo = require('../models/todo')
 

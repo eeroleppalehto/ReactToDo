@@ -65,9 +65,16 @@ function App() {
 
   const [sort, setSort] = useState("az");
 
+  const sortOptions = [
+    { label: "A-Z", value: "az" },
+    { label: "Z-A", value: "za" },
+    { label: "Oldest", value: "oldest"},
+    { label: "Newest", value: "newest"}
+  ];
+
   /* const SORT_NAMES = Object.keys(SORT_MAP); // TODO: Check if this line is needed */
 
-  // Iterate through tasks list to generate JSX
+  // First filter then sort and then generate todos to be rendered on the application
   const taskList = tasks.filter(FILTER_MAP[filter]).sort(SortFunctions[sort]).map((item) => (
     <Todo
       id={item.id}
@@ -81,6 +88,7 @@ function App() {
     />
   ));
 
+  // Generate
   const filterList = FILTER_NAMES.map((name) => (
     <FilterButton
       key={name}
@@ -100,7 +108,7 @@ function App() {
         <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">{filterList}</div>
       <h2 id="list-heading">{headingText}</h2>
-      <Sort sort={sort} setSort={setSort}/>
+      <Sort sort={sort} setSort={setSort} sortOptions={sortOptions}/>
       <ul
         role="list"
         className="todo-list stack-large stack-exception"

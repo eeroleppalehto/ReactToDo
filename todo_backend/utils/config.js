@@ -1,3 +1,5 @@
+// Reads info from .env-file that is used in the application
+
 require('dotenv').config()
 
 const PORT = process.env.PORT
