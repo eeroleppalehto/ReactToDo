@@ -10,6 +10,10 @@ const todoSchema = new mongoose.Schema({
   },
   completed: Boolean,
   created: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
   
 // Changes the toJSON method to display id as string instead of the default object and not to display v at all.
