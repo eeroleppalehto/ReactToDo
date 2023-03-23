@@ -1,9 +1,9 @@
 POST http://localhost:3001/api/todos
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVlamFsZXAiLCJpZCI6IjY0MWMxZjQ3N2ExZDVmYzY4YzUwNWQ5MCIsImlhdCI6MTY3OTU3MDc3MX0.iUbnvBbtDa0KxjbPTHP-CsXxYZxdWRUQ8aRLIEow1I4
 
 {
   "name": "VS Code rest client is pretty handy",
   "completed": true,
-  "created:": "2023-01-22T08:22:55.486Z",
-  "userId": "641c1f477a1d5fc68c505d90"
+  "created:": "2023-01-22T08:22:55.486Z"
 }
