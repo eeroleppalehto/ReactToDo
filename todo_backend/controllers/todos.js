@@ -1,58 +1,43 @@
 // Routes for handling request involing todos
-
 const todosRouter = require('express').Router()
 const Todo = require('../models/todo')
+const User = require('../models/user')
 
-//FIXME: Remove block comments
 todosRouter.get('/', async (req, res) => {
-  const todos = await Todo.find({})
+  const todos = await Todo
+    .find({}).populate('user', { username: 1, name: 1 })
   res.json(todos)
-  /* Todo.find({}).then(todos =>{
-    res.json(todos)
-  }) */
 })
 
-todosRouter.get('/:id', async (req, res, next) => {
-  try {
-    const todo = await Todo.findById(req.params.id)
-    if (todo) {
-      res.json(todo)
-    } else {
-      res.status(404).end()
-    }
-  } catch(exception) {
-    next(exception)
+todosRouter.get('/:id', async (req, res) => {
+  const todo = await Todo.findById(req.params.id)
+  if (todo) {
+    res.json(todo)
+  } else {
+    res.status(404).end()
   }
-
-  /* Todo.findById(req.params.id)
-    .then(todo => {
-      if (todo) {
-        res.json(todo)
-      } else {
-        res.status(404).end()
-      }  
-    })
-    .catch(error => next(error)) */
 })
 
-todosRouter.post('/', async (req, res, next) =>{
+todosRouter.post('/', async (req, res) =>{
   const body = req.body
+
+  const user = await User.findById(body.userId)
 
   const todo = new Todo ({
     name: body.name,
     completed: body.completed || false,
     created: new Date().toJSON(),
+    user: user._id
   })
   
-  try {
-    const savedTodo = await todo.save()
-    res.status(201).json(savedTodo)
-  } catch (exception) {
-    next(exception)
-  }
+  const savedTodo = await todo.save()
+  user.todos = user.todos.concat(savedTodo._id)
+  await user.save()
+  
+  res.status(201).json(savedTodo)
 })
 
-todosRouter.put('/:id', async (req, res, next) => {
+todosRouter.put('/:id', async (req, res) => {
   const body = req.body
 
   const todo = {
@@ -61,33 +46,13 @@ todosRouter.put('/:id', async (req, res, next) => {
     created: body.created,
   }
 
-  try {
-    const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, todo, {new: true, runValidators: true, context: 'query'})
-    res.status(200).json(updatedTodo)
-  } catch (exception) {
-    next(exception)
-  }
-
-  /* Todo.findByIdAndUpdate(req.params.id, todo, {new: true, runValidators: true, context: 'query'})
-    .then(updatedTodo =>{
-      res.json(updatedTodo)
-    })
-    .catch(error => next(error)) */
+  const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, todo, {new: true, runValidators: true, context: 'query'})
+  res.status(200).json(updatedTodo)
 })
 
-todosRouter.delete('/:id', async (req, res, next) => {
-  try {
-    await Todo.findByIdAndRemove(req.params.id)
-    res.status(204).end()
-  } catch (exception) {
-    next(exception)
-  }
-
-  /* Todo.findByIdAndRemove(req.params.id)
-    .then( () => {
-      res.status(204).end()
-    })
-    .catch(error => next(error)) */
+todosRouter.delete('/:id', async (req, res) => {
+  await Todo.findByIdAndRemove(req.params.id)
+  res.status(204).end()
 })
 
 module.exports = todosRouter
