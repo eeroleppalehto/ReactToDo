@@ -1,5 +1,6 @@
 // Routes for handling request involing todos
 const todosRouter = require('express').Router()
+const jwt = require('jsonwebtoken')
 const Todo = require('../models/todo')
 const User = require('../models/user')
 
@@ -18,10 +19,22 @@ todosRouter.get('/:id', async (req, res) => {
   }
 })
 
+const getTokenFrom = req => {
+  const authorization = req.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
+}
+
 todosRouter.post('/', async (req, res) =>{
   const body = req.body
 
-  const user = await User.findById(body.userId)
+  const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET)
+  if (!decodedToken.id) {
+    return res.status(401).json({ error: 'token invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
 
   const todo = new Todo ({
     name: body.name,
