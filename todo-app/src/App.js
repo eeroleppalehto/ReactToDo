@@ -4,14 +4,24 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Sort from "./components/Sort";
 import Todo from "./components/Todo";
+import Notification from "./components/Notification";
+import LoginForm from "./components/LoginForm" 
 
 import SortFunctions from "./utils/SortFunctions";
 import ToDoService from './services/ToDoService';
+import loginService from "./services/loginService";
 
 // Parent React Component to be rendered
 function App() {
-  
   const [tasks, setTasks] = useState([]);
+  const [sort, setSort] = useState("az");
+  const [filter, setFilter] = useState("All");
+  
+  const [errorMessage, setErrorMessage] = useState(null)
+  
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
 
   // Fetches all data to be rendered on first render of the page
   useEffect(() => {
@@ -26,6 +36,12 @@ function App() {
     ToDoService
       .create(newTask)
       .then(responseTask => setTasks([...tasks, responseTask]))
+      .catch(error => {
+        setErrorMessage(`Failed to save todo ${name} `)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
   }
 
   function toggleTaskCompleted(id) {
@@ -53,7 +69,6 @@ function App() {
         setTasks(tasks.map(task => task.id !== id ? task : responseTask)))
   }
 
-  const [filter, setFilter] = useState("All");
 
   const FILTER_MAP = {
     All: () => true,
@@ -63,7 +78,6 @@ function App() {
 
   const FILTER_NAMES = Object.keys(FILTER_MAP);
 
-  const [sort, setSort] = useState("az");
 
   const sortOptions = [
     { label: "A-Z", value: "az" },
@@ -71,6 +85,23 @@ function App() {
     { label: "Oldest", value: "oldest"},
     { label: "Newest", value: "newest"}
   ];
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+      const user = await loginService.login({
+        username, password,
+      })
+      setUser(user)
+      setUsername('')
+      setPassword('')
+    } catch (exception) {
+      setErrorMessage('wrong credentials')
+      setTimeout(() => {setErrorMessage(null)}, 5000)
+    }
+  }
+
+
 
   /* const SORT_NAMES = Object.keys(SORT_MAP); // TODO: Check if this line is needed */
 
@@ -98,6 +129,19 @@ function App() {
     />
   ));
 
+
+  const loginForm = () => (
+    <LoginForm
+      username={username}
+      password={password}
+      handleLogin={handleLogin}
+      setUsername={setUsername}
+      setPassword={setPassword}
+    />
+  );
+
+  const todoForm = () => <Form addTask={addTask} />
+
   // Make the task counter header dynamic
   const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
   const headingText = `${taskList.length} ${tasksNoun} remaining`;
@@ -105,10 +149,12 @@ function App() {
   return (
     <div className="todoapp stack-large">
       <h1>Eeron Todo</h1>
-        <Form addTask={addTask} />
+      <Notification message={errorMessage} />
+      {!user && loginForm()}
+      {user && todoForm()}
       <div className="filters btn-group stack-exception">{filterList}</div>
       <h2 id="list-heading">{headingText}</h2>
-      <Sort sort={sort} setSort={setSort} sortOptions={sortOptions}/>
+      <Sort sort={sort} setSort={setSort} sortOptions={sortOptions} />
       <ul
         role="list"
         className="todo-list stack-large stack-exception"

@@ -1,5 +1,4 @@
 // Functions to make XMLHttpRequests from the browser
-
 import axios from 'axios'
 const baseUrl = '/api/todos'
 

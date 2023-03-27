@@ -1,0 +1,45 @@
+import React from "react";
+
+export default function LoginForm({ username, password, handleLogin, setUsername, setPassword}){
+    /* const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('') 
+
+    const handleLogin = (event) => {
+        event.preventDefault()
+        console.log('logging in with', username, password)
+    } */
+
+    return (
+      <>
+        <form onSubmit={handleLogin}>
+          <h2 className="label-wrapper">
+            <label htmlFor="new-todo-input" className="label__lg">
+            Login
+            </label>
+          </h2>
+          <div>
+            Username
+            <input
+              type="text"
+              className="input input__lg"
+              value={username}
+              name="Username"
+              onChange={({ target }) => setUsername(target.value)}
+            />
+          </div>
+          <div>
+            Password
+            <input
+              type="password"
+              className="input input__lg"
+              value={password}
+              name="Password"
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </div>
+          <button className="btn toggle-btn" type="submit">login</button>
+        </form>
+      </>
+    );
+}
+
