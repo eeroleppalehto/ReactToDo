@@ -96,10 +96,17 @@ function App() {
 
   const handleLogin = async (event) => {
     event.preventDefault()
+
     try {
       const user = await loginService.login({
         username, password,
       })
+
+      window.localStorage.setItem(
+        'loggedTodoappUser', JSON.stringify(user)
+      )
+
+      ToDoService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -109,7 +116,10 @@ function App() {
     }
   }
 
-
+  const logout = () => {
+    window.localStorage.removeItem('loggedTodoappUser')
+    setUser(null)
+  }
 
   /* const SORT_NAMES = Object.keys(SORT_MAP); // TODO: Check if this line is needed */
 
