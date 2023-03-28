@@ -1,14 +1,7 @@
 import React from "react";
 
 export default function LoginForm({ username, password, handleLogin, setUsername, setPassword}){
-    /* const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('') 
-
-    const handleLogin = (event) => {
-        event.preventDefault()
-        console.log('logging in with', username, password)
-    } */
-
+    
     return (
       <>
         <form onSubmit={handleLogin}>
