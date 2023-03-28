@@ -156,7 +156,13 @@ function App() {
       setUsername={setUsername}
       setPassword={setPassword}
     />
-  );
+  const logoutButton = () => {
+    return(
+      <div>
+        <button className="btn toggle-btn" onClick={() => logout()}>LogOut</button>
+      </div>
+    )
+  }
 
   const todoForm = () => <Form addTask={addTask} />
 
