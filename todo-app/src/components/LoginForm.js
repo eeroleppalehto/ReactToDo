@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types'
 
 export default function LoginForm({ username, password, handleLogin, setUsername, setPassword}){
     
@@ -36,3 +37,10 @@ export default function LoginForm({ username, password, handleLogin, setUsername
     );
 }
 
+LoginForm.prototype = {
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  handleLogin: PropTypes.func.isRequired,
+  setUsername: PropTypes.func.isRequired,
+  setPassword:  PropTypes.func.isRequired
+}
