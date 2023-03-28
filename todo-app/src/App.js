@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react'
 
-import Form from "./components/Form";
-import FilterButton from "./components/FilterButton";
-import Sort from "./components/Sort";
-import Todo from "./components/Todo";
-import Notification from "./components/Notification";
-import LoginForm from "./components/LoginForm" 
-import Togglable from "./components/Togglable";
+import Form from './components/Form'
+import FilterButton from './components/FilterButton'
+import Sort from './components/Sort'
+import Todo from './components/Todo'
+import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
+import Togglable from './components/Togglable'
 
-import SortFunctions from "./utils/SortFunctions";
-import ToDoService from './services/ToDoService';
-import loginService from "./services/loginService";
+import SortFunctions from './utils/SortFunctions'
+import ToDoService from './services/ToDoService'
+import loginService from './services/loginService'
 
 // Parent React Component to be rendered
 function App() {
-  const [tasks, setTasks] = useState([]);
-  const [sort, setSort] = useState("az");
-  const [filter, setFilter] = useState("All");
-  
+  const [tasks, setTasks] = useState([])
+  const [sort, setSort] = useState('az')
+  const [filter, setFilter] = useState('All')
+
   const [errorMessage, setErrorMessage] = useState(null)
-  
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -27,7 +27,7 @@ function App() {
   // Fetches all data to be rendered on first render of the page
   useEffect(() => {
     ToDoService.getAll()
-      .then(initialNotes => setTasks(initialNotes))  
+      .then(initialNotes => setTasks(initialNotes))
   }, [])
 
   useEffect(() => {
@@ -38,15 +38,15 @@ function App() {
       ToDoService.setToken(user.token)
     }
   }, [])
-  
+
 
   // Callback function to update task list from Form.js
   function addTask(name) {
-    const newTask = { name, completed: false , created: new Date().toJSON()};
+    const newTask = { name, completed: false , created: new Date().toJSON() }
     ToDoService
       .create(newTask)
       .then(responseTask => setTasks([...tasks, responseTask]))
-      .catch(error => {
+      .catch(() => {
         setErrorMessage(`Failed to save todo ${name} `)
         setTimeout(() => {
           setErrorMessage(null)
@@ -55,7 +55,7 @@ function App() {
   }
 
   function toggleTaskCompleted(id) {
-    const toggleTask = tasks.find(task => task.id === id);
+    const toggleTask = tasks.find(task => task.id === id)
     const toggledTask = { ...toggleTask, completed: !toggleTask.completed }
     ToDoService
       .update(id, toggledTask)
@@ -64,18 +64,18 @@ function App() {
   }
 
   function deleteTask(id) {
-    const remainingTasks = tasks.filter((task) => task.id !== id);
+    const remainingTasks = tasks.filter((task) => task.id !== id)
     ToDoService
       .remove(id)
-      .then(() => setTasks(remainingTasks));
+      .then(() => setTasks(remainingTasks))
   }
 
   function editTask(id, newName) {
     const editTask = tasks.find(task => task.id === id)
-    const editedTask = { ...editTask, name: newName}
+    const editedTask = { ...editTask, name: newName }
     ToDoService
       .update(id, editedTask)
-      .then(responseTask => 
+      .then(responseTask =>
         setTasks(tasks.map(task => task.id !== id ? task : responseTask)))
   }
 
@@ -84,17 +84,17 @@ function App() {
     All: () => true,
     Active: (task) => !task.completed,
     Completed: (task) => task.completed,
-  };
+  }
 
-  const FILTER_NAMES = Object.keys(FILTER_MAP);
+  const FILTER_NAMES = Object.keys(FILTER_MAP)
 
 
   const sortOptions = [
-    { label: "A-Z", value: "az" },
-    { label: "Z-A", value: "za" },
-    { label: "Oldest", value: "oldest"},
-    { label: "Newest", value: "newest"}
-  ];
+    { label: 'A-Z', value: 'az' },
+    { label: 'Z-A', value: 'za' },
+    { label: 'Oldest', value: 'oldest' },
+    { label: 'Newest', value: 'newest' }
+  ]
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -137,7 +137,7 @@ function App() {
       deleteTask={deleteTask}
       editTask={editTask}
     />
-  ));
+  ))
 
   // Generate
   const filterList = FILTER_NAMES.map((name) => (
@@ -147,7 +147,7 @@ function App() {
       isPressed={name === filter}
       setFilter={setFilter}
     />
-  ));
+  ))
 
   const loginForm = () => (
     <Togglable buttonLabel='Login'>
@@ -161,7 +161,6 @@ function App() {
     </Togglable>
   )
 
-  
   const todoForm = () => {
     return(
       <Togglable buttonLabel='Add new Todo'>
@@ -169,7 +168,7 @@ function App() {
       </Togglable>
     )
   }
-  
+
   const logoutButton = () => {
     return(
       <div>
@@ -180,13 +179,13 @@ function App() {
 
 
   // Make the task counter header dynamic
-  const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
-  const headingText = `${taskList.length} ${tasksNoun} remaining`;
+  const tasksNoun = taskList.length !== 1 ? 'tasks' : 'task'
+  const headingText = `${taskList.length} ${tasksNoun} remaining`
 
   return (
     <div className="todoapp stack-large">
       {!user && <h1>Todo App</h1>}
-      {user && <h1>{user.name}'s Todos</h1>}
+      {user && <h1>{user.name}&apos;s Todos</h1>}
       {user && logoutButton()}
       <Notification message={errorMessage} />
       {!user && loginForm()}
@@ -202,7 +201,7 @@ function App() {
         {taskList}
       </ul>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

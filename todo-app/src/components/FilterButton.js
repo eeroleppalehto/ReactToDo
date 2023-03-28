@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
 
 // Button component that filters the saved tasks
-function FilterButton({name, isPressed, setFilter}) {
+function FilterButton({ name, isPressed, setFilter }) {
   return (
-    <button 
-      type="button" 
-      className="btn toggle-btn" 
+    <button
+      type="button"
+      className="btn toggle-btn"
       aria-pressed={isPressed}
       onClick={() => setFilter(name)}
     >
@@ -13,7 +13,7 @@ function FilterButton({name, isPressed, setFilter}) {
       <span>{name} </span>
       <span className="visually-hidden"> tasks</span>
     </button>
-  );
+  )
 }
 
-export default FilterButton;
+export default FilterButton

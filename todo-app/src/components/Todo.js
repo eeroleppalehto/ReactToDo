@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
 // React component for either viewing or editing saved task
 export default function Todo({ name, completed, id, created, toggleTaskCompleted, deleteTask, editTask }) {
-  
-  const [isEditing, setEditing] = useState(false);
+  const [isEditing, setEditing] = useState(false)
+  const [newName, setNewName] = useState('')
 
-  const [newName, setNewName] = useState('');
-
-  const dateString = created.slice(11,19) + ' ' + created.slice(0, 10);
+  const dateString = created.slice(11,19) + ' ' + created.slice(0, 10)
 
   // Sets the newName as what user has typed on the input field
   function handleChange(e) {
@@ -15,14 +13,14 @@ export default function Todo({ name, completed, id, created, toggleTaskCompleted
   }
 
   function handleSubmit(e) {
-    e.preventDefault();
-    if (newName !== "") {
-      editTask(id, newName);
+    e.preventDefault()
+    if (newName !== '') {
+      editTask(id, newName)
     }
-    setNewName("");
-    setEditing(false);
+    setNewName('')
+    setEditing(false)
   }
-  
+
   //JSX Template for editing a task
   const editingTemplate = (
     <form className="stack-small" onSubmit={handleSubmit}>
@@ -43,40 +41,41 @@ export default function Todo({ name, completed, id, created, toggleTaskCompleted
         </button>
       </div>
     </form>
-  );
+  )
+
   // JSX Template for viewing a task
   const viewTemplate = (
     <div className="stack-small">
       <div className="c-cb">
-          <input
-            id={id}
-            type="checkbox"
-            defaultChecked={completed}
-            onChange={() => toggleTaskCompleted(id)}
-          />
-          <label className="todo-label" htmlFor={id}>
-            {name}
-          </label>
-          <label className="todo-label">
-            {dateString}
-          </label>
-        </div>
-        <div className="btn-group">
-          <button type="button" className="btn" onClick={() => setEditing(true)}>
-            Edit <span className="visually-hidden">{name}</span>
-          </button>
-          <button
-            type="button"
-            className="btn btn__danger"
-            onClick={() => deleteTask(id)}
-          >
-            Delete <span className="visually-hidden">{name}</span>
-          </button>
-        </div>
+        <input
+          id={id}
+          type="checkbox"
+          defaultChecked={completed}
+          onChange={() => toggleTaskCompleted(id)}
+        />
+        <label className="todo-label" htmlFor={id}>
+          {name}
+        </label>
+        <label className="todo-label">
+          {dateString}
+        </label>
+      </div>
+      <div className="btn-group">
+        <button type="button" className="btn" onClick={() => setEditing(true)}>
+          Edit <span className="visually-hidden">{name}</span>
+        </button>
+        <button
+          type="button"
+          className="btn btn__danger"
+          onClick={() => deleteTask(id)}
+        >
+          Delete <span className="visually-hidden">{name}</span>
+        </button>
+      </div>
     </div>
-  );
-  
+  )
+
   // Conditionally render either editing or view template depending the state of 'isEditing'
-  return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
+  return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>
 
 }

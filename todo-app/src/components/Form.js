@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
 // Generates a Form component for adding a new Task
 function Form({ addTask }) {
 
   // State to manage the forms input field
-  const [name, setName] = useState('');
-  
+  const [name, setName] = useState('')
+
   function handleChange(e) {
     setName(e.target.value)
   }
 
   function handleSubmit(e) {
-    e.preventDefault();
-    if (name !== "") {
-      addTask(name);
+    e.preventDefault()
+    if (name !== '') {
+      addTask(name)
     }
-    setName("");
+    setName('')
   }
 
   return (
@@ -38,7 +38,7 @@ function Form({ addTask }) {
         Add
       </button>
     </form>
-  );
+  )
 }
 
-export default Form;
+export default Form
