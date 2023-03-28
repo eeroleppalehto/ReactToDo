@@ -29,6 +29,14 @@ function App() {
       .then(initialNotes => setTasks(initialNotes))  
   }, [])
   
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedTodoappUser')
+    if (loggedUserJSON){
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      ToDoService.setToken(user.token)
+    }
+  }, [])
 
   // Callback function to update task list from Form.js
   function addTask(name) {
