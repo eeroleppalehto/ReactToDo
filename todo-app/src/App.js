@@ -6,6 +6,7 @@ import Sort from "./components/Sort";
 import Todo from "./components/Todo";
 import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm" 
+import Togglable from "./components/Togglable";
 
 import SortFunctions from "./utils/SortFunctions";
 import ToDoService from './services/ToDoService';
@@ -28,7 +29,7 @@ function App() {
     ToDoService.getAll()
       .then(initialNotes => setTasks(initialNotes))  
   }, [])
-  
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedTodoappUser')
     if (loggedUserJSON){
@@ -37,6 +38,7 @@ function App() {
       ToDoService.setToken(user.token)
     }
   }, [])
+  
 
   // Callback function to update task list from Form.js
   function addTask(name) {
@@ -147,15 +149,27 @@ function App() {
     />
   ));
 
-
   const loginForm = () => (
-    <LoginForm
-      username={username}
-      password={password}
-      handleLogin={handleLogin}
-      setUsername={setUsername}
-      setPassword={setPassword}
-    />
+    <Togglable buttonLabel='Login'>
+      <LoginForm
+        username={username}
+        password={password}
+        handleLogin={handleLogin}
+        setUsername={setUsername}
+        setPassword={setPassword}
+      />
+    </Togglable>
+  )
+
+  
+  const todoForm = () => {
+    return(
+      <Togglable buttonLabel='Add new Todo'>
+        <Form addTask={addTask} />
+      </Togglable>
+    )
+  }
+  
   const logoutButton = () => {
     return(
       <div>
@@ -164,7 +178,6 @@ function App() {
     )
   }
 
-  const todoForm = () => <Form addTask={addTask} />
 
   // Make the task counter header dynamic
   const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
@@ -172,7 +185,9 @@ function App() {
 
   return (
     <div className="todoapp stack-large">
-      <h1>Eeron Todo</h1>
+      {!user && <h1>Todo App</h1>}
+      {user && <h1>{user.name}'s Todos</h1>}
+      {user && logoutButton()}
       <Notification message={errorMessage} />
       {!user && loginForm()}
       {user && todoForm()}
