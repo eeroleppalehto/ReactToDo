@@ -90,10 +90,10 @@ function App() {
 
 
   const sortOptions = [
-    { label: 'A-Z', value: 'az' },
-    { label: 'Z-A', value: 'za' },
-    { label: 'Oldest', value: 'oldest' },
-    { label: 'Newest', value: 'newest' }
+    { label: 'A-Z', value: 'az', key: 'az' },
+    { label: 'Z-A', value: 'za', key: 'za' },
+    { label: 'Oldest', value: 'oldest', key: 'oldest' },
+    { label: 'Newest', value: 'newest', key: 'newest' }
   ]
 
   const handleLogin = async (event) => {

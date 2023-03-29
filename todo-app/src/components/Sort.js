@@ -11,7 +11,7 @@ export default function Sort({ sort, setSort, sortOptions }) {
       <label className="todo-label">Sort: </label>
       <select value={sort} onChange={handleChange} className="sort">
         {sortOptions.map((option) => (
-          <option value={option.value}>{option.label}</option>
+          <option value={option.value} key={option.key}>{option.label}</option>
         ))}
       </select>
     </div>
