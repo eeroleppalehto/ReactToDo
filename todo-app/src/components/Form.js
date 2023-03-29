@@ -33,6 +33,7 @@ function Form({ addTask }) {
         autoComplete="off"
         value={name}
         onChange={handleChange}
+        placeholder="Name your todo"
       />
       <button type="submit" className="btn btn__primary btn__lg">
         Add
