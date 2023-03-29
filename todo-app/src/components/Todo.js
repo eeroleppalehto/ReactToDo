@@ -5,7 +5,9 @@ export default function Todo({ name, completed, id, created, toggleTaskCompleted
   const [isEditing, setEditing] = useState(false)
   const [newName, setNewName] = useState('')
 
-  const dateString = created.slice(11,19) + ' ' + created.slice(0, 10)
+  const dateTime = new Date(created)
+  const time = dateTime.toLocaleTimeString('it-IT')
+  const date = dateTime.toDateString()
 
   // Sets the newName as what user has typed on the input field
   function handleChange(e) {
@@ -50,6 +52,7 @@ export default function Todo({ name, completed, id, created, toggleTaskCompleted
         <input
           id={id}
           type="checkbox"
+          className="test"
           defaultChecked={completed}
           onChange={() => toggleTaskCompleted(id)}
         />
@@ -57,7 +60,7 @@ export default function Todo({ name, completed, id, created, toggleTaskCompleted
           {name}
         </label>
         <label className="todo-label">
-          {dateString}
+          {date} {time}
         </label>
       </div>
       <div className="btn-group">
