@@ -23,3 +23,25 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', ({ username, password }) => {
+  cy.request('POST', `${Cypress.env('BACKEND')}/login`, {
+    username, password
+  }).then(({ body }) => {
+    localStorage.setItem('loggedTodoappUser', JSON.stringify(body))
+    cy.visit('')
+  })
+})
+
+Cypress.Commands.add('addTodo', ({ name }) => {
+  cy.request({
+    url: `${Cypress.env('BACKEND')}/todos`,
+    method: 'POST',
+    body: { name, completed: false },
+    headers: {
+      'Authorization': `Bearer ${JSON.parse(localStorage.getItem('loggedTodoappUser')).token}`
+    }
+  })
+
+  cy.visit('')
+})
