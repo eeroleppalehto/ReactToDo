@@ -42,7 +42,7 @@ function App() {
 
   // Callback function to update task list from Form.js
   function addTask(name) {
-    const newTask = { name, completed: false , created: new Date().toJSON() }
+    const newTask = { name, completed: false , created: new Date().toJSON() } //FIXME: created is generated bot in front- and backend
     ToDoService
       .create(newTask)
       .then(responseTask => setTasks([...tasks, responseTask]))
@@ -163,7 +163,7 @@ function App() {
 
   const todoForm = () => {
     return(
-      <Togglable buttonLabel='Add new Todo'>
+      <Togglable buttonLabel='Add New Todo'>
         <Form addTask={addTask} />
       </Togglable>
     )
