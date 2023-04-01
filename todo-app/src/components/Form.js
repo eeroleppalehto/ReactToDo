@@ -35,7 +35,7 @@ function Form({ addTask }) {
         onChange={handleChange}
         placeholder="Name your todo"
       />
-      <button type="submit" className="btn btn__primary btn__lg">
+      <button type="submit" id='add' className="btn btn__primary btn__lg">
         Add
       </button>
     </form>

@@ -16,6 +16,7 @@ export default function LoginForm({ username, password, handleLogin, setUsername
             type="text"
             className="input input__lg"
             value={username}
+            id='username'
             name="Username"
             onChange={({ target }) => setUsername(target.value)}
           />
@@ -26,11 +27,12 @@ export default function LoginForm({ username, password, handleLogin, setUsername
             type="password"
             className="input input__lg"
             value={password}
+            id='password'
             name="Password"
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button className="btn toggle-btn" type="submit">login</button>
+        <button className="btn toggle-btn" type="submit" id='login'>login</button>
       </form>
     </>
   )
