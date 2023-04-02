@@ -55,6 +55,7 @@ export default function Todo({ name, completed, id, created, toggleTaskCompleted
           className="test"
           defaultChecked={completed}
           onChange={() => toggleTaskCompleted(id)}
+          value={name}
         />
         <label className="todo-label" htmlFor={id}>
           {name}

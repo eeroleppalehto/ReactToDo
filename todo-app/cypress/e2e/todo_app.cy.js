@@ -47,19 +47,17 @@ describe('Todo App', function() {
       cy.contains('testing cypress')
     })
 
-    describe('and a todo exists', function () {
+    describe('and many todos exists', function () {
       beforeEach(function () {
-        cy.addTodo({
-          name: 'commando'
-        })
+        cy.addTodo({ name: 'commando1' })
+        cy.addTodo({ name: 'commando2' })
       })
-    })
 
-    it('can change to completion state of a todo', function() {
-      cy.contains('Add New Todo').click()
-      cy.get('#new-todo-input').type('testing cypress')
-      cy.get('#add').click()
-      cy.get('.test').check().should('be.checked')
+      it('can change to completion state of one of the todos', function() {
+        cy.get('[type="checkbox"]')
+          .check('commando2')
+          .should('be.checked')
+      })
     })
   })
 })
